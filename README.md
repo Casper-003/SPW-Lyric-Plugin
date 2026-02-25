@@ -1,6 +1,6 @@
 # SPW 双语歌词增强插件 (SLyric)
 
-为 [Salt Player Workshop (SPW)](https://github.com/Moriafly/spw-workshop-api) 打造的音乐歌词获取插件。
+为 [Salt Player Workshop](https://github.com/Moriafly/spw-workshop-api) 打造的音乐歌词获取插件。
 不仅能够高精度匹配网易云词库，还原生支持通过 SPW 设置面板独立控制**中文翻译**与**罗马音**的显示。
 
 ## ✨ 核心特性
