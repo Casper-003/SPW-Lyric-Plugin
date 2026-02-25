@@ -1,0 +1,24 @@
+{
+  "configs": [
+    {
+      "title": "歌词显示设置",
+      "config": "config.json",
+      "preferences": [
+        {
+          "key": "enable_translation",
+          "type": "switch",
+          "title": "显示翻译",
+          "summary": "是否在歌词中合并中文翻译",
+          "default_value": true
+        },
+        {
+          "key": "enable_roman",
+          "type": "switch",
+          "title": "显示罗马音",
+          "summary": "是否在歌词中合并罗马音(如果有)",
+          "default_value": false
+        }
+      ]
+    }
+  ]
+}
