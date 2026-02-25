@@ -1,18 +1,18 @@
 # SPW 双语歌词增强插件 (SLyric)
 
 为 [Salt Player Workshop](https://github.com/Moriafly/spw-workshop-api) 打造的音乐歌词获取插件。
-能够高精度匹配网易云词库，原生支持通过 SPW 设置面板独立控制**中文翻译**与**罗马音**的显示。
+能够高精度匹配网易云词库，支持通过 SPW 设置面板独立控制**中文翻译**与**罗马音**的显示。
 
 ## ✨ 核心特性
 
-* **🔍 智能匹配引擎**：自动清洗歌名中的杂质大幅提升匹配成功率。
-* **🇯🇵 罗马音支持**：针对日文歌曲自动拉取并完美对齐罗马音时间轴。
-* **⚙️ 原生 UI 控制**：接入 SPW 模组管理界面，一键开关翻译与罗马音。
-* **⚡ 极速轻量**：使用原生 Kotlin + OkHttp 编写，网络请求响应迅速，低内存占用。
+* ** 智能匹配引擎**：自动清洗歌名中的杂质大幅提升匹配成功率。
+* ** 罗马音支持**：针对日文歌曲自动拉取并完美对齐罗马音时间轴。
+* ** 原生 UI 控制**：接入 SPW 模组管理界面，一键开关翻译与罗马音。
+* ** 极速轻量**：使用原生 Kotlin + OkHttp 编写，网络请求响应迅速，低内存占用。
 
 ## 📦 如何安装
 
-1. 前往本项目的 [Releases 页面](https://github.com/Casper-03/SPW-Netease-Lyric-Plugin/releases) 下载最新版本的 `.zip` 压缩包（**请勿解压**）。
+1. 前往本项目的 [Releases 页面](https://github.com/Casper-003/SPW-Lyric-Plugin/releases/tag/v1.0.1) 下载最新版本的 `.zip` 压缩包（**请勿解压**）。
 2. 打开 SPW 软件，进入左侧菜单的 **设置** -> **模组管理**。
 3. 将下载好的 `.zip` 文件直接拖拽进软件窗口中，即可自动完成安装。
 4. 重启软件，在模组列表中找到 `SLyric`，点击右侧的 ⚙️ 齿轮图标即可进行自定义设置。
@@ -27,7 +27,7 @@
 
 ## 📝 问题反馈
 
-如果遇到无法匹配的歌曲，欢迎提交 [Issue](https://github.com/Casper-03/SPW-Netease-Lyric-Plugin/issues)，并附上歌曲名称与艺术家。
+如果遇到无法匹配的歌曲，欢迎提交 [Issue](https://github.com/Casper-003/SPW-Lyric-Plugin/issues)，并附上歌曲名称与艺术家。
 
 ---
 *Developed with ❤️ by Casper-003*
