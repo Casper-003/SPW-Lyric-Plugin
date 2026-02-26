@@ -12,7 +12,7 @@
 
 ## 📦 如何安装
 
-1. 前往本项目的 [Releases 页面](https://github.com/Casper-003/SPW-Lyric-Plugin/releases/tag/v1.0.1) 下载最新版本的 `.zip` 压缩包（**请勿解压**）。
+1. 前往本项目的 [Releases 页面](https://github.com/Casper-003/SPW-Lyric-Plugin/releases) 下载最新版本的 `.zip` 压缩包（**请勿解压**）。
 2. 打开 SPW 软件，进入左侧菜单的 **设置** -> **创意工坊** -> **模组管理**。
 3. 单击右侧的**导入模组**按钮，选择下载好的`.zip` 压缩包。
 4. 在模组列表中找到 `SLyric`，点击该项目弹出菜单中的**启用**。
