@@ -1,9 +1,36 @@
 {
   "configs": [
     {
+      "title": "全局开关",
+      "config": "config.json",
+      "preferences": [
+        {
+          "key": "enable_plugin",
+          "type": "switch",
+          "title": "启用歌词匹配",
+          "summary": "开启时优先使用插件歌词。关闭时，将显示音乐源文件自带的歌词",
+          "default_value": true
+        },
+        {
+          "key": "show_toast",
+          "type": "switch",
+          "title": "显示匹配提示",
+          "summary": "开启时，在屏幕底部弹出正在匹配、匹配成功或失败的消息",
+          "default_value": false
+        }
+      ]
+    },
+    {
       "title": "歌词显示设置",
       "config": "config.json",
       "preferences": [
+        {
+          "key": "enable_yrc",
+          "type": "switch",
+          "title": "启用逐字歌词",
+          "summary": "尝试获取并转换为 SPL 卡拉OK级逐字歌词 (仅部分歌曲支持)",
+          "default_value": true
+        },
         {
           "key": "enable_translation",
           "type": "switch",

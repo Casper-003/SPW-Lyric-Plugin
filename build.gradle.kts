@@ -43,10 +43,10 @@ dependencies {
 val pluginClass = "com.gg.example.NeteaseLyricPlugin"
 val pluginId = "netease-lyric-provider"
 val pluginHasConfig = "true"
-val pluginVersion = "1.0.1"
+val pluginVersion = "1.2.2"
 val pluginProvider = "Casper-003"
 val pluginName = "SLyric"
-val pluginDescription = "为 SPW 提供网易云音乐的高精度双语歌词匹配，支持翻译与罗马音独立开关。"
+val pluginDescription = "为 SPW 提供网易云的双语歌词匹配，支持翻译与罗马音独立开关以及部分歌曲的逐字歌词（符合SPL标准）。"
 val pluginRepository = "https://github.com/Casper-003/SPW-Lyric-Plugin"
 
 // 配置主 JAR 任务
