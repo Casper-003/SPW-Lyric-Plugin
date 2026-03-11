@@ -1,11 +1,11 @@
 # SPW 歌词匹配插件 
 
-为 [Salt Player Workshop](https://github.com/Moriafly/spw-workshop-api) 开发的歌词插件。
+为 [Salt Player for Windows](https://github.com/Moriafly/SPW) 开发的歌词插件。
 能够匹配网易云词库，支持通过 SPW 设置面板控制**中文翻译**与**罗马音**的显示。
 
 ##  核心特性
 
-* **匹配**：清洗歌名中的杂质大幅提升匹配成功率。
+* **匹配**：清洗歌名中的杂质,提升匹配成功率。
 * **罗马音支持**：针对日文歌曲自动拉取并对齐罗马音时间轴。
 * **UI控制**：接入 SPW 模组管理界面。
 * **逐字歌词**：将YRC转换成SPL标准，以实现逐字歌词效果。
