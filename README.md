@@ -31,4 +31,4 @@
 如果遇到无法匹配的歌曲，欢迎提交 [Issue](https://github.com/Casper-003/SPW-Lyric-Plugin/issues)，并附上歌曲名称与艺术家。
 
 ---
-*Developed with ❤️ by Casper-003*
+*Developed with ❤️ by Casper-003 & Google Gemini*
