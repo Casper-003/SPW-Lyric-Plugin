@@ -1,87 +1,95 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.kapt")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
-    alias(libs.plugins.jetbrains.kotlin.plugin.serialization)
+    `java-library`
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.kapt)
 }
 
-group = "com.gg.example"
-version = "1.0.0"
-
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget = JvmTarget.JVM_21
-        freeCompilerArgs.add("-Xjvm-default=all")
+        jvmTarget.set(JvmTarget.JVM_21)
+        freeCompilerArgs.add("-jvm-default=no-compatibility")
     }
 }
 
 dependencies {
-    // Kotlin 标准库
     compileOnly(kotlin("stdlib"))
-
-    // SPW Workshop API
-    project(":api").let {
-        compileOnly(it)
-        kapt(it)
+    // A locally built official API JAR also supports development without JitPack access.
+    val localApiJar = providers.gradleProperty("spwApiJar")
+    if (localApiJar.isPresent) {
+        val apiJar = file(localApiJar.get())
+        require(apiJar.isFile) { "spwApiJar must point to an existing official SPW API JAR: $apiJar" }
+        compileOnly(files(apiJar))
+    } else {
+        compileOnly(libs.spw.workshop.api)
     }
+    compileOnly(libs.pf4j)
+    kapt(libs.pf4j)
 
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0") // 新增这行
-//     实际开发中应该使用下面的依赖
-//    compileOnly(libs.spw.workshop.api)
-//    kapt(libs.spw.workshop.api)
+    implementation(libs.gson)
+    implementation(libs.okhttp)
+
+    testImplementation(kotlin("stdlib"))
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockwebserver)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
-// 插件元数据配置
-val pluginClass = "com.gg.example.NeteaseLyricPlugin"
-val pluginId = "netease-lyric-provider"
-val pluginHasConfig = "true"
-val pluginVersion = "1.2.2"
-val pluginProvider = "Casper-003"
 val pluginName = "SLyric"
-val pluginDescription = "为 SPW 提供网易云的双语歌词匹配，支持翻译与罗马音独立开关以及部分歌曲的逐字歌词（符合SPL标准）。"
-val pluginRepository = "https://github.com/Casper-003/SPW-Lyric-Plugin"
 
-// 配置主 JAR 任务
 tasks.named<Jar>("jar") {
     manifest {
         attributes(
-            "Plugin-Class" to pluginClass,
-            "Plugin-Id" to pluginId,
+            "Plugin-Class" to "com.gg.example.NeteaseLyricPlugin",
+            "Plugin-Id" to "netease-lyric-provider",
             "Plugin-Name" to pluginName,
-            "Plugin-Description" to pluginDescription,
-            "Plugin-Version" to pluginVersion,
-            "Plugin-Provider" to pluginProvider,
+            "Plugin-Description" to "为 SPW 提供网易云的双语歌词匹配，支持翻译与罗马音独立开关以及部分歌曲的逐字歌词（符合SPL标准）。",
+            "Plugin-Version" to project.version.toString(),
+            "Plugin-Provider" to "Casper-003",
             "Plugin-Has-Config" to "true",
-            "Plugin-Open-Source-Url" to pluginRepository,
+            "Plugin-Open-Source-Url" to "https://github.com/Casper-003/SPW-Lyric-Plugin",
         )
     }
 }
 
-// 创建插件分发包
-tasks.register<Jar>("plugin") {
-    destinationDirectory.set(
-        file(System.getenv("APPDATA") + "/Salt Player for Windows/workshop/plugins/")
-    )
-    archiveFileName.set("$pluginName-$pluginVersion.zip")
-
+// Keep the existing SPW ZIP layout; building no longer writes into a player's data directory.
+val plugin by tasks.registering(Zip::class) {
+    group = "distribution"
+    description = "Build the SPW plugin ZIP in build/distributions."
+    destinationDirectory.set(layout.buildDirectory.dir("distributions"))
+    archiveFileName.set("$pluginName-${project.version}.zip")
     into("classes") {
-        with(tasks.named<Jar>("jar").get())
+        from(tasks.named<Jar>("jar").map { zipTree(it.archiveFile) })
     }
-    dependsOn(configurations.runtimeClasspath)
     into("lib") {
-        from({
-            configurations.runtimeClasspath
-                .get()
-                .filter { it.name.endsWith("jar") }
-        })
+        from(configurations.runtimeClasspath.map { files -> files.filter { it.extension == "jar" } })
     }
-    archiveExtension.set("zip")
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
 }
+
+tasks.register<Copy>("installPlugin") {
+    group = "distribution"
+    description = "Copy the plugin ZIP to -PpluginInstallDir or the Windows SPW plugin directory."
+    from(plugin.flatMap { it.archiveFile })
+    into(providers.provider {
+        providers.gradleProperty("pluginInstallDir").orNull
+            ?: providers.environmentVariable("APPDATA").orNull?.let {
+                "$it/Salt Player for Windows/workshop/plugins"
+            }
+            ?: error("Set -PpluginInstallDir=<directory> or APPDATA to install the plugin.")
+    })
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging { events("failed", "skipped") }
+}
+
+tasks.assemble { dependsOn(plugin) }

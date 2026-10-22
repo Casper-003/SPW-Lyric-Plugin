@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Repeated text currently selects the earlier translation (LYRIC-1)",
+    "lrc": "[00:10.00]la\n[00:12.00]la",
+    "translation": "[00:10.00]translation-A\n[00:12.00]translation-B",
+    "yrc": "[12000,1000](12000,1000,0)la",
+    "output": "[00:12.000]la[00:13.000]\ntranslation-A\n"
+  },
+  {
+    "name": "A translation shifted by 200 ms is omitted in YRC mode (LYRIC-2)",
+    "lrc": "[00:10.00]Hello",
+    "translation": "[00:10.20]translation",
+    "yrc": "[10000,1000](10000,1000,0)Hello",
+    "output": "[00:10.000]Hello[00:11.000]\n"
+  },
+  {
+    "name": "A translation shifted by 200 ms becomes a separate LRC line (LYRIC-2)",
+    "lrc": "[00:10.00]Hello",
+    "translation": "[00:10.20]translation",
+    "yrc": "",
+    "output": "[00:10.000]Hello\n[00:10.200]translation\n"
+  },
+  {
+    "name": "A YRC line without words currently blocks LRC fallback (LYRIC-3)",
+    "lrc": "[00:10.00]Hello",
+    "translation": "[00:10.00]translation",
+    "yrc": "[10000,1000]",
+    "output": "[00:10.000][00:11.000]\ntranslation\n"
+  },
+  {
+    "name": "The first YRC fragment consumes the entire LRC slot (LYRIC-5)",
+    "lrc": "[00:10.00]Hello world",
+    "translation": "[00:10.00]translation",
+    "yrc": "[10000,1000](10000,1000,0)Hello\n[11000,1000](11000,1000,0)world",
+    "output": "[00:10.000]Hello[00:11.000]\ntranslation\n[00:11.000]world[00:12.000]\n"
+  },
+  {
+    "name": "The second timestamp is currently treated as text (LYRIC-4)",
+    "lrc": "[00:10.00][00:20.00]Echo",
+    "translation": "",
+    "yrc": "",
+    "output": "[00:10.000][00:20.00]Echo\n"
+  }
+]
