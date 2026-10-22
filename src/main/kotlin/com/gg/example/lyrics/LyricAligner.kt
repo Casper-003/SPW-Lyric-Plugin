@@ -24,4 +24,7 @@ internal class LyricAligner {
     }
 
     private fun normalize(text: String): String = text.replace(punctuation, "").lowercase()
+
+    fun hasSameText(first: String, second: String): Boolean =
+        normalize(first).isNotBlank() && normalize(first) == normalize(second)
 }

@@ -26,7 +26,7 @@ Windows PowerShell：
 .\gradlew.bat test plugin
 ```
 
-产物位于 `build/distributions/SLyric-1.2.2.zip`。构建不会自动修改播放器目录。
+产物位于 `build/distributions/SLyric-1.2.3.zip`。构建不会自动修改播放器目录。
 
 可选安装命令：
 
@@ -40,7 +40,7 @@ Windows PowerShell：
 
 ### SPW API 依赖
 
-API 固定为 `0.1.0-dev20`，来自官方 [spw-workshop-api](https://github.com/Moriafly/spw-workshop-api)。正常构建从 JitPack 解析 API，其余依赖从 Maven Central 解析。API 和 PF4J 由播放器提供，不打入插件运行库。
+API 固定为 `0.1.0-dev20`，来自官方 [spw-workshop-api](https://github.com/Moriafly/spw-workshop-api)。正常构建从 JitPack 解析 API，其间接依赖的 AndroidX 库从 Google Maven 解析，其余依赖从 Maven Central 解析。API 和 PF4J 由播放器提供，不打入插件运行库。
 
 若网络无法访问 JitPack，可使用从同版本官方源码构建的 API JAR：
 
@@ -67,7 +67,9 @@ API 固定为 `0.1.0-dev20`，来自官方 [spw-workshop-api](https://github.com
 
 报告位于 `build/reports/tests/test/index.html`。测试使用本地 MockWebServer，不请求网易云，也不需要启动播放器。
 
-本次规范化保留既有歌词算法。`LyricCompatibilityTest` 锁定六组旧版异常输出，证明结构重构未悄悄改变这些行为；它们不是正确性证明。`KnownLyricIssuesTest` 中四个目标测试被显式禁用，等待后续歌词修复与本地播放器验证。
+最初的规范化保留既有歌词算法。`LyricCompatibilityTest` 锁定六组旧版异常输出；它们不是正确性证明。`KnownLyricIssuesTest` 中四个目标测试仍被显式禁用，等待后续歌词修复与本地播放器验证。
+
+`1.2.3` 修复了逐字歌词的制作信息行误占原文/翻译槽位的问题。若前两句带翻译或罗马音的原文能与逐字歌词唯一匹配，首句时间相差超过 1 秒、第二句相差不超过 1 秒，则整首自动使用普通歌词。此保护独立于翻译/罗马音的显示开关，不生成猜测的逐字时间；重复文本或证据不足时不会触发。该策略来自歌曲 `2080448369` 的数据分析，更新后的播放器显示仍需实测。
 
 已知时间轴问题、测试含义和后续验证方式见 [docs/known-issues.md](docs/known-issues.md)。真实网易云访问和 Windows SPW 插件加载不在离线测试范围内。
 
